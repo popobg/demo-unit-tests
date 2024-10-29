@@ -6,6 +6,17 @@
 	<groupId>fr.diginamic</groupId>
 	<artifactId>demo-tests-unitaires</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.11.3</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<plugins>
