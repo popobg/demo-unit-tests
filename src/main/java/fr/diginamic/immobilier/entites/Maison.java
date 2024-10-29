@@ -1,4 +1,7 @@
 package fr.diginamic.immobilier.entites;
+
+import java.util.Arrays;
+
 /** Représente une maison avec toutes ses pièces
  * @author DIGINAMIC
  *
@@ -14,6 +17,34 @@ public class Maison {
 	public Maison(){
 		// Initialisation du tableau de pièces
 		pieces = new Piece[0];
+	}
+
+	/**
+	 * Constructeur
+	 * @param pieces tableau d'objet Piece
+	 */
+	public Maison(Piece... pieces) {
+		this.pieces = pieces;
+	}
+
+	/**
+	 * Méthode permettant de comparer deux objets Maison.
+	 * @param obj Objet
+	 * @return boolean
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Maison)) {
+			return false;
+		}
+
+		Maison autre = (Maison)obj;
+
+		if (this.pieces.length != autre.nbPieces()) {
+			return false;
+		}
+
+		return Arrays.equals(autre.getPieces(), this.pieces);
 	}
 
 	/** Ajoute une pièce à la maison
@@ -40,9 +71,16 @@ public class Maison {
 		// Enfin on affecte newTab à pieces
 		this.pieces=newTab;
 	}
+
+	/**
+	 *
+	 */
+	public void detruireMaison() {
+		pieces = new Piece[0];
+	}
 	
 	public int nbPieces() {
-		return pieces.length-1;
+		return pieces.length;
 	}
 
 	/** Retourne la superficie d'un étage

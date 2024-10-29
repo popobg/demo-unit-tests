@@ -35,7 +35,20 @@ public abstract class Piece {
 		this.numEtage = etage;
 		this.superficie = superficie;
 	}
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Piece)) {
+			return false;
+		}
+
+		Piece autre = (Piece)obj;
+		
+		return this.getType().equals(autre.getType())
+				&& this.numEtage == autre.getNumEtage()
+				&& this.superficie == autre.getSuperficie();
+	}
+
 	/** Retourne le type de la pièce
 	 * @return String
 	 */
