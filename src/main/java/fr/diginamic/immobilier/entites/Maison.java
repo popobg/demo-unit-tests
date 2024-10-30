@@ -47,11 +47,14 @@ public class Maison {
 		return Arrays.equals(autre.getPieces(), this.pieces);
 	}
 
-	/** Ajoute une pièce à la maison
+	/** Ajoute une pièce à la maison.
 	 * @param nvPiece nouvelle pièce à ajouter
 	 */
-	public void ajouterPiece(Piece nvPiece) {
-		
+	public void ajouterPiece(Piece nvPiece) throws IllegalArgumentException {
+		if (nvPiece == null) {
+			throw new IllegalArgumentException("La valeur passée en paramètre est null. Ce devrait être un objet de type Piece.");
+		}
+
 		// On est obligé d'agrandir le tableau initial de 1 à chaque ajout
 		// d'une nouvelle pièce
 		
@@ -60,9 +63,7 @@ public class Maison {
 		Piece[] newTab = new Piece[pieces.length+1];
 		
 		// On déverse toutes les pièces du tableau pieces dans newTab
-		for (int i=0; i<pieces.length; i++){
-			newTab[i]=pieces[i];
-		}
+        System.arraycopy(pieces, 0, newTab, 0, pieces.length);
 		
 		// On place en dernière position dans le nouveau tableau la nouvelle
 		// pièce
@@ -71,61 +72,80 @@ public class Maison {
 		// Enfin on affecte newTab à pieces
 		this.pieces=newTab;
 	}
-
-	/**
-	 *
-	 */
-	public void detruireMaison() {
-		pieces = new Piece[0];
-	}
 	
 	public int nbPieces() {
 		return pieces.length;
 	}
 
-	/** Retourne la superficie d'un étage
+	/** Retourne la superficie totale d'un étage.
+	 * Si le numéro de l'étage n'est pas reconnu ou null, retourne -1.
 	 * @param choixEtage choix de l'étage
 	 * @return double
 	 */
 	public double superficieEtage(int choixEtage) {
+		if (pieces.length == 0) {
+			return 0;
+		}
+
 		double superficieEtage = 0;
 
-		for (int i = 0; i < pieces.length; i++) {
-			if (choixEtage == this.pieces[i].getNumEtage()) {
-				superficieEtage = this.pieces[i].getSuperficie();
-			}
-		}
+        for (Piece piece : pieces) {
+            if (choixEtage == piece.getNumEtage()) {
+                superficieEtage += piece.getSuperficie();
+            }
+        }
 
 		return superficieEtage;
 	}
 	
-	/** Retourne la superficie total pour un type de pièce donné
+	/** Retourne la superficie totale pour un type de pièce donné.
+	 * Si le type de pièce n'est pas reconnu ou null, retourne -1.
 	 * @param typePiece type de pièce
 	 * @return double
 	 */
 	public double superficieTypePiece(String typePiece) {
+		if (typePiece == null
+				|| typePiece.isEmpty()) {
+			return -1;
+		}
+
+		if (pieces.length == 0) {
+			return 0;
+		}
+
 		double superficie = 0;
 
-		for (int i = 1; i < pieces.length; i++) {
-			if (typePiece!=null && typePiece.equals(this.pieces[i].getType())) {
-				superficie = superficie + this.pieces[i].getSuperficie();
+		for (Piece piece: pieces) {
+			if (typePiece.equals(piece.getType())) {
+				superficie += piece.getSuperficie();
 			}
 		}
 
 		return superficie;
 	}
 
-	/** Retourne la surface totale
+	/** Retourne la surface totale des pièces de la maison.
 	 * @return double
 	 */
 	public double calculerSurface() {
-		double superficieTot = 0;
-
-		for (int i = 0; i < pieces.length; i++) {
-			superficieTot = superficieTot + this.pieces[i].getSuperficie();
+		if (pieces.length == 0) {
+			return 0;
 		}
 
+		double superficieTot = 0;
+
+        for (Piece piece : pieces) {
+            superficieTot += piece.getSuperficie();
+        }
+
 		return superficieTot;
+	}
+
+	/**
+	 * Supprime les pièces de la maison.
+	 */
+	public void detruirePieces() {
+		pieces = new Piece[0];
 	}
 
 	/** Getter pour l'attribut pieces
